@@ -1,13 +1,13 @@
-const Role = require("../database/schemas/Role");
-const User = require("../database/schemas/User");
-const Tag = require("../database/schemas/Tag");
-const Category = require("../database/schemas/Category");
-const { hashSync } = require("bcrypt");
+const { hashSync } = require('bcrypt');
+const Role = require('../database/schemas/Role');
+const User = require('../database/schemas/User');
+const Tag = require('../database/schemas/Tag');
+const Category = require('../database/schemas/Category');
 
 class AdminController {
   async createAdmin(req, res) {
     const { username, email, password } = req.body;
-    const userRole = await Role.findOne({ value: "Admin" });
+    const userRole = await Role.findOne({ value: 'Admin' });
     let user = new User({
       username,
       email,
@@ -20,7 +20,7 @@ class AdminController {
 
   async createAdminFromUser(req, res) {
     const { id } = req.body;
-    const userRole = await Role.findOne({ value: "Admin" });
+    const userRole = await Role.findOne({ value: 'Admin' });
     let user = await User.updateOne({ id }, { role: userRole.value });
     console.log(user);
     res.send({ success: true });
@@ -28,7 +28,7 @@ class AdminController {
 
   async deleteAdmin(req, res) {
     const { id } = req.query;
-    const userRole = await Role.findOne({ value: "User" });
+    const userRole = await Role.findOne({ value: 'User' });
     let user = await User.updateOne({ id }, { role: userRole.value });
     console.log(user);
     res.send({ success: true });
