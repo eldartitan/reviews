@@ -1,8 +1,8 @@
-const { Router } = require("express");
+const { Router } = require('express');
+const otherController = require('../controllers/otherController');
 const router = Router();
-const otherController = require("../controllers/otherController");
 
-router.get("/tags", otherController.getTags);
-router.get("/categories", otherController.getCategories);
+router.get('/tags', otherController.getTags);
+router.get('/categories', otherController.getCategories);
 
 module.exports = router;

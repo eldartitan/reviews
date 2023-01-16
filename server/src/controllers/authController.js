@@ -1,19 +1,19 @@
-const { hashSync } = require("bcrypt");
-const Role = require("../database/schemas/Role");
-const User = require("../database/schemas/User");
+const { hashSync } = require('bcrypt');
+const Role = require('../database/schemas/Role');
+const User = require('../database/schemas/User');
 
 class authController {
-  async logout(req, res, next) {
+  async logout(req, res) {
     req.logout(req.user, (err) => {
       if (err) return res.status(400).send(err.message);
       req.session = null;
-      res.send("Goodbye!");
+      res.send('Goodbye!');
     });
   }
 
   async register(req, res) {
     const { username, email, password } = req.body;
-    const userRole = await Role.findOne({ value: "User" });
+    const userRole = await Role.findOne({ value: 'User' });
     let user = await User.create({
       username,
       email,
