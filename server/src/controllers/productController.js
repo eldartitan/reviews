@@ -2,27 +2,12 @@ const Product = require('../database/schemas/Product');
 const { average } = require('../utils');
 
 class productController {
-  async getProduct(req, res, next) {
-    try {
-      const { id } = req.params;
-      const product = await Product.findOne({ _id: id });
-      const avg = average(product.rating.map((m) => Number(m.value)));
-
-      res.status(200).send({
-        id: product.id,
-        value: product.value,
-        rating_avg: avg,
-        rating: product.rating,
-      });
-    } catch (err) {
-      console.error(`Error while getting product`, err.message);
-      next(err);
-    }
-  }
-
   async getProducts(req, res, next) {
     try {
-      const products = await Product.find();
+      const products = await Product
+        .find(req.query)
+        .limit(Number(req.query.limit) || 50);
+
       res.status(200).send(products);
     } catch (err) {
       console.error(`Error while getting products`, err.message);
@@ -32,27 +17,27 @@ class productController {
 
   async ratingProducts(req, res, next) {
     try {
-      const { product_id, user_id, value } = req.body;
-      const product = await Product.findOne({ _id: product_id });
-      const filtered = product.rating.filter((f) => f.user_id === user_id);
+      const { product, user_id, value } = req.body;
+      const productDb = await Product.findOne({ value: product });
+      const filtered = productDb.rating.filter((f) => f.user_id === user_id);
 
       if (!filtered.length) {
         await Product.updateOne(
-          { _id: product_id },
+          { _id: productDb._id },
           { $push: { rating: { user_id, value } } }
         );
       } else {
         await Product.updateOne(
-          { _id: product_id, 'rating.user_id': user_id },
+          { _id: productDb._id, 'rating.user_id': user_id },
           { $set: { 'rating.$.value': value } }
         );
       }
 
-      const updatedProduct = await Product.findOne({ _id: product_id });
+      const updatedProduct = await Product.findOne({ _id: productDb._id });
       const avg = average(updatedProduct.rating.map((m) => Number(m.value)));
 
       res.status(200).send({
-        id: updatedProduct.id,
+        id: updatedProduct._id,
         value: updatedProduct.value,
         rating_avg: avg,
         rating: updatedProduct.rating,

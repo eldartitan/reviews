@@ -1,88 +1,102 @@
-import { Chip, Stack, Box } from "@mui/material";
-import { AssessmentOutlined, RocketOutlined } from "@mui/icons-material";
-import { useLocation } from "react-router";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getTags } from "../store/thunks/otherThunk.js";
-import { getReviews } from "../store/thunks/reviewThunk.js";
-import { NavLink } from "react-router-dom";
+import {Chip, Stack, Box, Typography} from "@mui/material";
+import {useLocation} from "react-router";
+import {NavLink} from "react-router-dom";
+import {useGetTagsQuery} from "../store/api/reviewApi.js";
+import ButtonBorderRadius from "./ButtonBorderRadius.jsx";
 
 export default function TagsPanel(props) {
-  const dispatch = useDispatch();
   const location = useLocation();
-
-  const { tags } = useSelector((state) => state.other);
-
-  const cLocate = location.pathname.includes("/c/")
+  const categoryLocate = location.pathname.includes("/c/")
     ? `${location.pathname.split("/t/")[0]}/t`
     : "";
 
-  const handleClick = (params) => {
-    dispatch(getReviews(params));
-  };
+  const {data: tags, error, isloading} = useGetTagsQuery();
 
-  useEffect(() => {
-    dispatch(getTags());
-  }, [location]);
+  const style = {
+    unselected: {
+      backgroundColor: "#edeff1",
+      color: "#000000de",
+    },
+    selected: {
+      backgroundColor: "#222222",
+      color: "white",
+    }
+  }
 
   return (
     <Box
       sx={{
-        background: "white",
-        borderRadius: 1,
-        color: "#898989",
         maxWidth: 574,
       }}
     >
-      <Stack direction="row" spacing={1} sx={{ display: "inline-block" }}>
+      <Stack direction="row" spacing={1} sx={{display: "inline-block"}}>
         {location.pathname.includes("/review/") ? (
           props.tags?.map((tag) => (
             <NavLink
               key={tag}
               to={`/${tag}`}
-              style={{ textDecoration: "none" }}
-              state={{ tags: tag }}
+              style={{textDecoration: "none"}}
+              state={{tags: tag, category: location?.state?.category}}
             >
               <Chip
                 key={tag}
                 label={tag}
                 size="small"
                 color={"default"}
-                onClick={() => console.log({ tags: tag }, "TAGS VALUE")}
+                clickable
               />
             </NavLink>
           ))
         ) : (
           <>
-            <Chip
-              size="small"
-              icon={<RocketOutlined />}
-              label="Highly rated"
-              color={"default"}
-              onClick={() => handleClick({ sort: "rated" })}
-            />
-            <Chip
-              size="small"
-              icon={<AssessmentOutlined />}
-              label="Last updated"
-              color={"default"}
-              onClick={() => handleClick({ sort: "upload" })}
-            />
-
+            <NavLink
+              to={"/"}
+              style={{textDecoration: "none"}}
+              state={null}
+            >
+              <ButtonBorderRadius
+                onClick={() => props?.setSort(null)}
+                sx={!props.params && !location?.state ? style.selected : style.unselected}
+              >
+                <Typography fontWeight={400} fontSize={13} >
+                  All
+                </Typography>
+              </ButtonBorderRadius>
+            </NavLink>
+            <ButtonBorderRadius
+              onClick={() => props?.setSort({params: {user_rating: -1}})}
+              sx={props.params?.user_rating === -1 ? style.selected : style.unselected}
+            >
+              <Typography fontWeight={400} fontSize={13} >
+                Highly rated
+              </Typography>
+            </ButtonBorderRadius>
+            <ButtonBorderRadius
+              onClick={() => props?.setSort({params: {_id: -1}})}
+              sx={props.params?._id === -1 ? style.selected : style.unselected}
+            >
+              <Typography fontWeight={400} fontSize={13} >
+                Last updated
+              </Typography>
+            </ButtonBorderRadius>
             {tags?.map((tag) => (
               <NavLink
                 key={tag._id}
-                to={`${cLocate}/${tag.value}`}
-                style={{ textDecoration: "none" }}
-                state={{ tags: tag.value }}
+                to={`${categoryLocate}/${tag.value}`}
+                style={{textDecoration: "none"}}
+                state={location?.state?.tags === tag.value ? {category: location?.state?.category} : {
+                  tags: tag.value,
+                  category: location?.state?.category
+                }}
               >
-                <Chip
+                <ButtonBorderRadius
                   key={tag._id}
-                  size="small"
-                  label={tag.value}
-                  color={"default"}
-                  onClick={() => console.log({ tags: tag.value }, "TAGS VALUE")}
-                />
+                  sx={location?.state?.tags === tag.value ? style.selected : style.unselected}
+                >
+                  <Typography fontWeight={400} fontSize={13} >
+                    {tag.value}
+                  </Typography>
+                </ButtonBorderRadius>
               </NavLink>
             ))}
           </>

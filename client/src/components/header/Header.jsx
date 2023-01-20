@@ -1,37 +1,30 @@
-import { useEffect, useMemo, useState } from "react";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
+import { useMemo, useState } from "react";
 import {
-  IconButton,
+  Box,
+  Toolbar,
+  Typography,
   MenuItem,
   Stack,
   FormControl,
   Select,
+  IconButton,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { NavLink } from "react-router-dom";
-import MySearch from "../MySearch/index.jsx";
 import LoginModal from "./LoginModal.jsx";
-import MyButton from "../MyButton.jsx";
-import MyDrawer from "./MyDrawer.jsx";
+import MyDrawer from "./HeaderDrawer.jsx";
 import HeaderMenu from "./HeaderMenu";
 import { useDispatch, useSelector } from "react-redux";
-import { loginGoogle } from "../../store/authSlice.js";
-import { getCategories } from "../../store/thunks/otherThunk.js";
-import { useLocation } from "react-router";
+import {loginDiscord, loginGoogle} from "../../store/authSlice.js";
+import Search from "../search/Search.jsx";
+import ButtonBorderRadius from "../ButtonBorderRadius";
+import {useGetCategoriesQuery} from "../../store/api/reviewApi.js";
 
-export default function MyHeader() {
+export default function Header() {
   const dispatch = useDispatch();
-  const location = useLocation();
-  console.log(location);
-  const { user, loading, error } = useSelector((state) => state.user);
-  const {
-    categories,
-    loading: loadingReview,
-    error: errorReview,
-  } = useSelector((state) => state.other);
 
+  const {data: categories, error, isLoading } = useGetCategoriesQuery();
+  const { user, loading } = useSelector((state) => state.user);
   const [lang, setLang] = useState("EN");
 
   const handleChange = (event) => {
@@ -40,21 +33,14 @@ export default function MyHeader() {
 
   useMemo(() => {
     dispatch(loginGoogle());
-    dispatch(getCategories());
+    dispatch(loginDiscord());
   }, []);
 
   return (
     <Toolbar>
       <Stack direction="row" alignItems="center" spacing={1}>
         <MyDrawer />
-        <Box
-          sx={{
-            display: {
-              xs: "none",
-              sm: "block",
-            },
-          }}
-        >
+        <Box>
           <NavLink
             to={"/"}
             style={{
@@ -74,7 +60,7 @@ export default function MyHeader() {
           </NavLink>
         </Box>
       </Stack>
-      <MySearch />
+      <Search />
       <Box
         sx={{
           display: {
@@ -95,7 +81,7 @@ export default function MyHeader() {
             <NavLink
               key={cat._id}
               to={`/c/${cat.value}`}
-              state={{ category: cat.value }}
+              state={{ category: cat.value}}
               style={({ isActive }) =>
                 isActive
                   ? {
@@ -143,23 +129,18 @@ export default function MyHeader() {
               to={"/create"}
               style={{ textDecoration: "none", color: "inherit" }}
             >
-              <MyButton
-                style={{
+              <ButtonBorderRadius
+                sx={{
                   color: "white",
-                  backgroundColor: "#222222",
-                  borderRadius: 20,
+                  backgroundColor: "#ff4500",
                   height: 32,
                   padding: "0 25px",
                 }}
               >
-                <Typography
-                  sx={{
-                    fontWeight: 500,
-                  }}
-                >
+                <Typography fontWeight={500}>
                   Create
                 </Typography>
-              </MyButton>
+              </ButtonBorderRadius>
             </NavLink>
           </Box>
         )}

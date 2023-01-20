@@ -1,22 +1,22 @@
 import { Autocomplete, Chip, TextField } from "@mui/material";
-import { useSelector } from "react-redux";
+import {useGetTagsQuery} from "../../store/api/reviewApi.js";
 
-export default function MyAutocompleteTags({ setTags, tagsLocal }) {
-  const { tags, error } = useSelector((state) => state.other);
+export default function AutocompleteTag({ setTags, tagsLocal }) {
+  const {data: tags, error, isloading} = useGetTagsQuery({limit: 50});
 
   const handleChange = (event, value) => {
     console.log(value, "tags");
     setTags(value);
   };
 
-  return (
+  if (tags) return (
     <Autocomplete
       id="tags-filled"
       freeSolo
       multiple
       value={tagsLocal}
       onChange={handleChange}
-      options={tags.map((option) => option.value)}
+      options={tags?.map((option) => option?.value)}
       renderTags={(value, getTagProps) =>
         value.map((option, index) => (
           <Chip variant="outlined" label={option} {...getTagProps({ index })} />

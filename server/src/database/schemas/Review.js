@@ -9,7 +9,7 @@ const ReviewSchema = new mongoose.Schema({
     type: mongoose.SchemaTypes.String,
     required: true,
   },
-  product_id: {
+  product: {
     type: mongoose.SchemaTypes.String,
     required: true,
   },

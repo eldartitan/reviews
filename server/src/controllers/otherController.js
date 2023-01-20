@@ -4,6 +4,7 @@ const Category = require("../database/schemas/Category");
 class OtherController {
   async getTags(req, res, next) {
     try {
+      console.log(req.query)
       const tags = await Tag.aggregate([
         {
           $addFields: {
@@ -17,7 +18,7 @@ class OtherController {
             subscribedGroupsLength: -1,
           },
         },
-      ]).limit(10);
+      ]).limit(Number(req.query.limit) || 10);
 
       res.send(tags);
     } catch (err) {

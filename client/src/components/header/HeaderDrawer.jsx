@@ -37,7 +37,6 @@ export default function MyDrawer() {
         sx={{
           alignItems: "center",
           display: {
-            // xs: "flex",
             sm: "flex",
             md: "none",
           },

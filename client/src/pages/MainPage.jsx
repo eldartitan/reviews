@@ -1,27 +1,19 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getReviews } from "../store/thunks/reviewThunk.js";
-import { getProducts } from "../store/thunks/otherThunk.js";
-import { useLocation } from "react-router";
-import { Grid, Container } from "@mui/material";
+import {useGetReviewsQuery} from "../store/api/reviewApi.js";
+import {useLocation} from "react-router";
+import {Grid, Container} from "@mui/material";
 import TagsPanel from "../components/TagsPanel.jsx";
-import MyCard from "../components/MyCard/index.jsx";
+import Card from "../components/card/Card.jsx";
+import {useState} from "react";
 
 const MainPage = () => {
-  const dispatch = useDispatch();
   const location = useLocation();
-
-  const { reviews, loading, error } = useSelector((state) => state.review);
-
-  useEffect(() => {
-    dispatch(getReviews(location?.state));
-    dispatch(getProducts());
-  }, [location]);
+  const [params, setParams] = useState(null);
+  const {data: reviews, error, isLoading} = useGetReviewsQuery({...location?.state, ...params})
 
   return (
     <>
       {reviews && Array.isArray(reviews) && (
-        <Container maxWidth="sm" sx={{ my: 2 }}>
+        <Container maxWidth="sm" sx={{my: 2}}>
           <Grid
             container
             direction="column"
@@ -30,14 +22,13 @@ const MainPage = () => {
             spacing={1.5}
           >
             <Grid item>
-              <TagsPanel />
+              <TagsPanel setSort={(s) => setParams(s)} params={params?.params} />
             </Grid>
-            {!loading &&
+            {!isLoading &&
               reviews?.map((review) => {
-                // console.log(review);
                 return (
                   <Grid item key={review._id}>
-                    <MyCard data={review} />
+                    <Card data={review} />
                   </Grid>
                 );
               })}

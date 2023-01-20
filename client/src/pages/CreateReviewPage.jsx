@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   Container,
@@ -11,27 +10,28 @@ import {
   Rating,
   Stack,
 } from "@mui/material";
-import MyAutocompleteTags from "../components/CreatePost/MyAutocompleteTags.jsx";
-import MyAutocompleteProduct from "../components/CreatePost/MyAutocompleteProduct.jsx";
-import MyImageList from "../components/CreatePost/MyImageList.jsx";
-import SelectCats from "../components/CreatePost/SelectCats";
-import { postReview } from "../store/thunks/reviewThunk.js";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase.js";
 import { v4 } from "uuid";
+import SelectCategories from "../components/createReview/SelectCategories";
+import AutocompleteProduct from "../components/createReview/AutocompleteProduct";
+import AutocompleteTag from "../components/createReview/AutocompleteTag";
+import ImageList from "../components/createReview/ImageList.jsx";
+import {usePostReviewMutation} from "../store/api/reviewApi.js";
 
 const theme = createTheme();
 
-export default function CreatePost() {
-  const dispatch = useDispatch();
+export default function CreateReviewPage() {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [user_rating, setRating] = useState(0);
   const [tagsLocal, setTags] = useState([]);
-  const [cats, setCats] = useState("");
+  const [categories, setCategories] = useState("");
   const [product, setProduct] = useState("");
   const [imageUpload, setImageUpload] = useState(null);
   const [imageUrls, setImageUrls] = useState([]);
+
+  const [postReview] = usePostReviewMutation();
 
   const imagesListRef = ref(storage, "images/");
   const uploadFile = () => {
@@ -55,12 +55,12 @@ export default function CreatePost() {
       title,
       user_rating,
       tags: tagsLocal,
-      category: cats,
+      category: categories,
       product,
       images: imageUrls,
     };
     console.log(data);
-    dispatch(postReview(data));
+    postReview(data);
   };
 
   return (
@@ -107,10 +107,10 @@ export default function CreatePost() {
                 setText(event.target.value);
               }}
             />
-            <SelectCats cats={cats} setCats={(p) => setCats(p)} />
-            <MyAutocompleteProduct setProduct={(p) => setProduct(p)} />
-            <MyAutocompleteTags tags={tagsLocal} setTags={(p) => setTags(p)} />
-            <MyImageList
+            <SelectCategories categories={categories} setCategories={(p) => setCategories(p)} />
+            <AutocompleteProduct setProduct={(p) => setProduct(p)} />
+            <AutocompleteTag tags={tagsLocal} setTags={(p) => setTags(p)} />
+            <ImageList
               images={imageUrls}
               imageUpload={imageUpload}
               setImages={(i) => setImageUpload(i)}

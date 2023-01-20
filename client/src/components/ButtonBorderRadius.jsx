@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 import { Button } from "@mui/material";
 
-const MyButton = styled(Button)({
+const ButtonBorderRadius = styled(Button)({
   color: "#898989",
   boxShadow: "none",
   textTransform: "none",
@@ -9,13 +9,12 @@ const MyButton = styled(Button)({
   fontFamily: "inter",
   fontSize: 14,
   fontWeight: 600,
-  borderRadius: 24,
+  borderRadius: 20,
   "&:hover": {
-    backgroundColor: "#edeff1",
-    borderRadius: 24,
+    backgroundColor: "#00000014",
     boxShadow: "none",
     color: "#222222",
   },
 });
 
-export default MyButton;
+export default ButtonBorderRadius;

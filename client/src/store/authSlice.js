@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { isError } from "./utils.js";
 
 const API_URL = import.meta.env.VITE_REACT_API_URL;
 
@@ -77,12 +76,14 @@ function loadAndError(state, loading = false, error, user = null) {
   state.user = user;
 }
 
+function isError(action) {
+  return action.type.endsWith("rejected");
+}
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    example: (state) => {},
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(loginGoogle.pending, (state) => loadAndError(state, true, null))
@@ -104,7 +105,5 @@ export const authSlice = createSlice({
       });
   },
 });
-
-// export const {increment, decrement, incrementByAmount} = reviewSlice.actions;
 
 export default authSlice.reducer;

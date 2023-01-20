@@ -1,10 +1,10 @@
-require('dotenv').config({ path: `${__dirname}/.env` });
+require('dotenv').config();
 
 const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
 const passport = require('passport');
-// const MongoStore = require('connect-mongo');
+const MongoStore = require('connect-mongo');
 
 const routes = require('./routes');
 
@@ -29,7 +29,7 @@ app.use(
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
-    // store: MongoStore.create({ mongoUrl, collectionName: "sessions" }),
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URL, collectionName: "sessions" }),
     cookie: { maxAge: 1000 * 60 * 60 * 24 },
   })
 );

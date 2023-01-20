@@ -1,8 +1,7 @@
-import { Grid, IconButton, Typography } from "@mui/material";
+import { Grid, IconButton } from "@mui/material";
 import { AddPhotoAlternate } from "@mui/icons-material";
-import MyButton from "../MyButton.jsx";
 
-export default function MyImageList({
+export default function ImageList({
   images,
   setImages,
   uploadFile,

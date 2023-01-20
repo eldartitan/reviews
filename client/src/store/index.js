@@ -1,14 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./authSlice.js";
-import reviewReducer from "./reviewSlice.js";
-import otherReducer from "./otherSlice.js";
+import { reviewApi } from "./api/reviewApi.js";
 
 export const store = configureStore({
   reducer: {
     user: authReducer,
-    review: reviewReducer,
-    other: otherReducer,
+    [reviewApi.reducerPath]: reviewApi.reducer,
   },
-  middleware: (getDefaultMiddlware) =>
-    getDefaultMiddlware({ serializableCheck: false }),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false }).concat(reviewApi.middleware),
 });

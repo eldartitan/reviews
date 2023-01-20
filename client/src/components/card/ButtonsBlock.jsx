@@ -1,28 +1,25 @@
 import { useEffect, useState } from "react";
-import { Stack, Typography, Box, CardMedia } from "@mui/material";
+import { Stack, Typography, Box } from "@mui/material";
 import {
   ChatBubbleOutline,
   Favorite,
   FavoriteBorderOutlined,
 } from "@mui/icons-material";
-import MyButton from "../MyButton.jsx";
+import ButtonBorderRadius from "../ButtonBorderRadius.jsx";
 import { Link } from "react-router-dom";
-import {
-  getReviews,
-  likeReview,
-  removeLikeReview,
-} from "../../store/thunks/reviewThunk.js";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import {useDislikeReviewMutation, useLikeReviewMutation} from "../../store/api/reviewApi.js";
 
 export default function ButtonsBlock({ likes, comments, id }) {
-  // console.log(id);
-  const dispatch = useDispatch();
+  const [likeReview] = useLikeReviewMutation();
+  const [dislikeReview] = useDislikeReviewMutation();
+
   const { user, loading, error } = useSelector((state) => state.user);
   const [liked, setLiked] = useState(false);
 
   const handleClick = () => {
-    if (!liked) dispatch(likeReview({ review_id: id }));
-    else dispatch(removeLikeReview({ review_id: id }));
+    if (!liked) likeReview({review_id: id, user_id: user});
+    else dislikeReview({review_id: id, user_id: user});
   };
 
   useEffect(() => {
@@ -37,7 +34,7 @@ export default function ButtonsBlock({ likes, comments, id }) {
         spacing={1}
         sx={{ height: 40, ml: 1 }}
       >
-        <MyButton onClick={handleClick}>
+        <ButtonBorderRadius onClick={handleClick}>
           <Stack
             direction="row"
             alignItems="center"
@@ -51,8 +48,8 @@ export default function ButtonsBlock({ likes, comments, id }) {
             )}
             <Typography variant="body2">{likes?.length} likes</Typography>
           </Stack>
-        </MyButton>
-        <MyButton>
+        </ButtonBorderRadius>
+        <ButtonBorderRadius>
           <Link
             to={`/review/${id}`}
             style={{ textDecoration: "none", color: "inherit" }}
@@ -64,7 +61,7 @@ export default function ButtonsBlock({ likes, comments, id }) {
               </Typography>
             </Stack>
           </Link>
-        </MyButton>
+        </ButtonBorderRadius>
       </Stack>
     </Box>
   );

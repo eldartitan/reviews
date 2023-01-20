@@ -6,7 +6,7 @@ class commentController {
   async get(req, res, next) {
     try {
       const { id } = req.params;
-      const comments = await Comment.find({ review_id: id });
+      const comments = await Comment.find({ review_id: id }).sort({_id: -1});
       res.send(comments);
     } catch (err) {
       console.error(`Error while getting users`, err.message);
@@ -16,6 +16,7 @@ class commentController {
 
   async create(req, res, next) {
     try {
+      console.log(req.body)
       const { user_id, review_id, text } = req.body;
       let user = !user_id ? req.user : await User.findOne({ _id: user_id });
       const commentDB = await Comment.create({

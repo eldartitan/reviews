@@ -1,15 +1,9 @@
 import { Outlet, useLocation } from "react-router";
 import { useEffect } from "react";
-import MyHeader from "../components/MyHeader/index.jsx";
-import { useSelector } from "react-redux";
-import Loading from "../components/Loading";
+import Header from "../components/header/Header";
 
 const Layout = () => {
   let location = useLocation();
-  const { user, loading, error } = useSelector((state) => state.user);
-  const { loading: loadingReview, error: errorReview } = useSelector(
-    (state) => state.review
-  );
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -17,8 +11,7 @@ const Layout = () => {
 
   return (
     <>
-      {loadingReview && <Loading />}
-      <MyHeader />
+      <Header />
       <Outlet />
     </>
   );

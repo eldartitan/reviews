@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { Autocomplete, IconButton, Box, Stack, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
-export default function MySearch() {
+export default function Search() {
   const [text, setText] = useState("");
 
   const handleChange = (event) => {

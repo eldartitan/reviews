@@ -3,8 +3,8 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import MyButton from "../MyButton.jsx";
 import { Google } from "@mui/icons-material";
+import ButtonBorderRadius from "../ButtonBorderRadius.jsx";
 import discord from "../../assets/discord-icon.svg";
 
 const API_URL = import.meta.env.VITE_REACT_API_URL;
@@ -27,14 +27,17 @@ export default function LoginModal() {
 
   return (
     <div>
-      <MyButton
+      <ButtonBorderRadius
         onClick={handleOpen}
         sx={{
-          color: "white",
-          background: "#222222",
-          borderRadius: 20,
+          color: "#222222",
+          border: "1px solid #898989",
           height: 32,
           padding: "0 25px",
+          "&:hover": {
+            backgroundColor: "#222222",
+            color: "white",
+          },
         }}
       >
         <Typography
@@ -44,7 +47,7 @@ export default function LoginModal() {
         >
           Log in
         </Typography>
-      </MyButton>
+      </ButtonBorderRadius>
       <Modal
         open={open}
         onClose={handleClose}

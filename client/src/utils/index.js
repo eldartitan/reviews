@@ -7,3 +7,9 @@ export function formatFromNow(props) {
 export function formatDate(props) {
   return moment(props).format("DD.MM.YYYY");
 }
+
+export const average = (arr) => {
+  if (arr) {
+    return arr.map((m) => Number(m.value))?.reduce((p, c) => p + c, 0 / arr.length);
+  }
+};

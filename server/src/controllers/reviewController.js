@@ -2,27 +2,14 @@ const Review = require('../database/schemas/Review');
 const Product = require('../database/schemas/Product');
 const Tag = require('../database/schemas/Tag');
 const User = require('../database/schemas/User');
-const Category = require('../database/schemas/Category');
 
 class reviewController {
   async get(req, res, next) {
     try {
-      const { id, params, tags, category, text, user_id } = req.query;
-      const catDb = await Category.findOne({ value: category });
-      let reviewDb;
-
-      if (id) reviewDb = await Review.findOne({ _id: id });
-      else if (user_id) reviewDb = await Review.find({ user_id }).limit(10);
-      else if (text)
-        reviewDb = await Review.find({ $text: { $search: text } }).limit(10);
-      else if (tags) reviewDb = await Review.find({ tags }).limit(10);
-      else if (params) reviewDb = await Review.find().sort(params).limit(10);
-      else if (category) {
-        const catDb = await Category.findOne({ value: category });
-        reviewDb = await Review.find({ category: catDb.id }).limit(10);
-      } else reviewDb = await Review.find().limit(10);
-
-      res.status(200).send(reviewDb);
+      const data = JSON.parse(req.query.data)
+      const reviews = await Review.find(
+        data?.text ? {$text: {$search: data?.text}} : data).sort(data.params);
+      res.status(200).send(reviews);
     } catch (err) {
       console.error(`Error while getting users`, err.message);
       next(err);
@@ -41,15 +28,15 @@ class reviewController {
         images,
         category,
       } = req.body;
-      let user = !user_id ? req.user : await User.findOne({ _id: user_id });
+      let user = !user_id ? req.user : await User.findOne({_id: user_id});
 
-      let productDb = await Product.findOne({ value: product });
+      let productDb = await Product.findOne({value: product});
       if (!productDb) {
-        productDb = await Product.create({ value: product });
+        productDb = await Product.create({value: product});
       }
 
       const review = await Review.create({
-        product_id: productDb.id,
+        product: productDb.value,
         tags,
         user_id: user._id,
         username: user.username,
@@ -62,9 +49,9 @@ class reviewController {
 
       await Promise.all(
         tags.map(async (name) => {
-          let tag = await Tag.findOne({ value: name });
-          if (!tag) tag = await Tag.create({ value: name });
-          tag.reviews.push(review.id);
+          let tag = await Tag.findOne({value: name});
+          if (!tag) tag = await Tag.create({value: name});
+          tag.reviews.push(review._id);
           tag.save();
         })
       );
@@ -78,10 +65,10 @@ class reviewController {
 
   async update(req, res, next) {
     try {
-      const { id } = req.query;
-      const { title, text, user_rating, images, tag } = req.body;
+      const {id} = req.query;
+      const {title, text, user_rating, images, tag} = req.body;
       const reviewDb = await Review.updateOne(
-        { _id: id },
+        {_id: id},
         {
           $set: {
             title,
@@ -101,9 +88,9 @@ class reviewController {
 
   async remove(req, res, next) {
     try {
-      const { id } = req.query;
-      await Review.deleteOne({ id });
-      await Comment.delete({ review_id: id });
+      const {id} = req.query;
+      await Review.deleteOne({id});
+      await Comment.delete({review_id: id});
       res.send(200);
     } catch (err) {
       console.error(`Error while deleting review`, err.message);
@@ -113,13 +100,9 @@ class reviewController {
 
   async addLike(req, res, next) {
     try {
-      const { review_id, user_id } = req.body;
+      const {review_id, user_id} = req.body;
       let user = user_id || req.user;
-      await Review.updateOne(
-        { _id: review_id },
-        { $push: { likes: user._id } }
-      );
-      const review = await Review.findOne({ _id: review_id });
+      const review = await Review.findOneAndUpdate({_id: review_id}, {$push: {likes: user._id}});
       res.status(200).send(review);
     } catch (err) {
       console.error(`Error while deleting review`, err.message);
@@ -129,10 +112,9 @@ class reviewController {
 
   async removeLike(req, res, next) {
     try {
-      const { review_id, user_id } = req.body;
+      const {review_id, user_id} = req.body;
       let user = user_id || req.user;
-      await Review.updateOne({ id: review_id }, { $pull: { likes: user._id } });
-      const review = await Review.findOne({ _id: review_id });
+      const review = await Review.findOneAndUpdate({_id: review_id}, {$pull: {likes: user._id}});
       res.status(200).send(review);
     } catch (err) {
       console.error(`Error while deleting review`, err.message);

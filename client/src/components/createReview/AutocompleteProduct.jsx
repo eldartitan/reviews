@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import TextField from "@mui/material/TextField";
-import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
-import { useSelector } from "react-redux";
+import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
+import {useGetProductsQuery} from "../../store/api/reviewApi.js";
 
-const filter = createFilterOptions();
 
-export default function MyAutocompleteProduct({ setProduct }) {
+export default function AutocompleteProduct({setProduct}) {
   const [value, setValue] = useState(null);
-  const { products, error } = useSelector((state) => state.other);
+  const {data: products, error, isLoading} = useGetProductsQuery();
+  const filter = createFilterOptions();
 
   useEffect(() => {
     setProduct(value?.value);
   }, [value]);
 
-  return (
+  if (products) return (
     <Autocomplete
       value={value}
       fullWidth
@@ -24,7 +24,6 @@ export default function MyAutocompleteProduct({ setProduct }) {
             value: newValue,
           });
         } else if (newValue && newValue.inputValue) {
-          // Create a new value from the user input
           setValue({
             value: newValue.inputValue,
           });
@@ -34,9 +33,8 @@ export default function MyAutocompleteProduct({ setProduct }) {
       }}
       filterOptions={(options, params) => {
         const filtered = filter(options, params);
+        const {inputValue} = params;
 
-        const { inputValue } = params;
-        // Suggest the creation of a new value
         const isExisting = options.some(
           (option) => inputValue === option.value
         );
@@ -46,7 +44,6 @@ export default function MyAutocompleteProduct({ setProduct }) {
             value: `Add "${inputValue}"`,
           });
         }
-
         return filtered;
       }}
       selectOnFocus
@@ -55,24 +52,19 @@ export default function MyAutocompleteProduct({ setProduct }) {
       id="free-solo-with-text-demo"
       options={products}
       getOptionLabel={(option) => {
-        // Value selected with enter, right from the input
         if (typeof option === "string") {
           return option;
         }
-        // Add "xxx" option created dynamically
         if (option.inputValue) {
           return option.inputValue;
         }
-        // Regular option
         return option.value;
       }}
       renderOption={(props, option) => <li {...props}>{option.value}</li>}
       freeSolo
       renderInput={(params) => (
-        <TextField margin="normal" {...params} label="Product" required />
+        <TextField margin="normal" {...params} label="Product" required/>
       )}
     />
   );
 }
-
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
