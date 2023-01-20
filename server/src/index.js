@@ -5,6 +5,7 @@ const session = require('express-session');
 const cors = require('cors');
 const passport = require('passport');
 const MongoStore = require('connect-mongo');
+const path = require("path");
 
 const routes = require('./routes');
 
@@ -36,5 +37,11 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(routes);
+
+app.use(express.static(path.resolve(__dirname, '../dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../dist', 'index.html'));
+})
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
