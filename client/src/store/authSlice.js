@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_REACT_API_URL;
+// const API_URL = import.meta.env.VITE_REACT_API_URL;
 
 export const loginGoogle = createAsyncThunk(
   "auth/loginGoogle",
@@ -9,7 +9,7 @@ export const loginGoogle = createAsyncThunk(
     try {
       console.log("GOOGLE");
       const response = await axios
-        .get(`${API_URL}/auth/google/success`, {
+        .get(`/auth/google/success`, {
           withCredentials: true,
         })
         .then((res) => {
@@ -33,7 +33,7 @@ export const loginDiscord = createAsyncThunk(
     try {
       console.log("GOOGLE");
       const response = await axios
-        .get(`${API_URL}/auth/discord/success`, {
+        .get(`/auth/discord/success`, {
           withCredentials: true,
         })
         .then((res) => res);
