@@ -6,7 +6,7 @@ import { useRef } from "react";
 import { Box } from "@mui/material";
 
 function SampleNextArrow(props) {
-  const { className, style, onClick } = props;
+  const { className, onClick } = props;
   return (
     <Box
       className={className}

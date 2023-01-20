@@ -1,6 +1,10 @@
-import Box from "@mui/material/Box";
-import { KeyboardArrowDown, Logout, PersonOutline } from "@mui/icons-material";
-import { ListItemIcon, Menu, MenuItem, Typography } from "@mui/material";
+import {
+  KeyboardArrowDown,
+  Logout,
+  PersonOutline,
+  PersonOutlineOutlined
+} from "@mui/icons-material";
+import {ListItemIcon, Menu, MenuItem, Box, Typography} from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/authSlice.js";
@@ -54,12 +58,16 @@ export default function HeaderMenu() {
           "aria-labelledby": "basic-button",
         }}
       >
+        <Typography textAlign="center" variant="subtitle2" sx={{py: 1}}>{user.username}</Typography>
         <NavLink
           style={{ textDecoration: "none", color: "inherit" }}
           to={"/my-page"}
         >
-          <MenuItem sx={{ textAlign: "center" }} onClick={handleClose}>
-            My page
+          <MenuItem onClick={handleClose}>
+            <ListItemIcon>
+              <PersonOutlineOutlined fontSize="small" />
+            </ListItemIcon>
+            Account
           </MenuItem>
         </NavLink>
         <MenuItem onClick={handleLogout}>
