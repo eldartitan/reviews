@@ -38,10 +38,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(routes);
 
-app.use(express.static(path.resolve(__dirname, '../../client/dist')));
+app.use(express.static(path.resolve(__dirname, '../client/dist')));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../../client/dist', 'index.html'));
+  res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'));
 })
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
