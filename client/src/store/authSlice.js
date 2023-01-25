@@ -52,7 +52,7 @@ export const logout = createAsyncThunk(
   async function (_, { rejectWithValue }) {
     try {
       const response = await axios
-        .get(`${API_URL}/auth/google/logout`, {
+        .get(`/auth/google/logout`, {
           withCredentials: true,
         })
         .then((res) => res);

@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {useGetCommentsQuery, usePostCommentMutation} from "../../store/api/reviewApi";
-import {Box, Button, Input, Stack, Typography} from "@mui/material";
+import {Alert, Box, Button, Input, Snackbar, Stack, Typography} from "@mui/material";
 import {formatFromNow} from "../../utils";
 
 export default function Comments({review_id, user_id}) {
@@ -8,6 +8,7 @@ export default function Comments({review_id, user_id}) {
   const [postComment] = usePostCommentMutation();
 
   const [focus, setFocus] = useState(false);
+  const [open, setOpen] = useState(false);
   const [commentInput, setCommentInput] = useState("");
 
   const handleClickCansel = () => {
@@ -24,7 +25,7 @@ export default function Comments({review_id, user_id}) {
         text: commentInput,
       });
     } else {
-      alert("")
+      setOpen(true)
     }
   };
 
@@ -74,6 +75,14 @@ export default function Comments({review_id, user_id}) {
           </Stack>
         ))}
       </Stack>
+      <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)} anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'center'
+      }}>
+        <Alert onClose={() => setOpen(false)} severity="warning" sx={{width: '100%'}}>
+          You must be logged in to add a comment!
+        </Alert>
+      </Snackbar>
     </>
   );
 }

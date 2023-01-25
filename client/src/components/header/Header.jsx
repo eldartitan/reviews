@@ -36,7 +36,7 @@ export default function Header() {
       dispatch(loginGoogle());
       dispatch(loginDiscord());
     }
-  }, []);
+  }, [user]);
 
   return (
     <Toolbar>
