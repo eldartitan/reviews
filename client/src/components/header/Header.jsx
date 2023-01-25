@@ -32,7 +32,7 @@ export default function Header() {
   };
 
   useMemo(() => {
-    if (!user && error) {
+    if (!user && !error) {
       dispatch(loginGoogle());
       dispatch(loginDiscord());
     }
