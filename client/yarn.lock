@@ -791,21 +791,7 @@
     "prop-types" "^15.8.1"
     "react-is" "^18.2.0"
 
-"@mui/base@5.0.0-alpha.115":
-  "integrity" "sha512-OGQ84whT/yNYd6xKCGGS6MxqEfjVjk5esXM7HP6bB2Rim7QICUapxZt4nm8q39fpT08rNDkv3xPVqDDwRdRg1g=="
-  "resolved" "https://registry.npmjs.org/@mui/base/-/base-5.0.0-alpha.115.tgz"
-  "version" "5.0.0-alpha.115"
-  dependencies:
-    "@babel/runtime" "^7.20.7"
-    "@emotion/is-prop-valid" "^1.2.0"
-    "@mui/types" "^7.2.3"
-    "@mui/utils" "^5.11.2"
-    "@popperjs/core" "^2.11.6"
-    "clsx" "^1.2.1"
-    "prop-types" "^15.8.1"
-    "react-is" "^18.2.0"
-
-"@mui/core-downloads-tracker@^5.11.0", "@mui/core-downloads-tracker@^5.11.6":
+"@mui/core-downloads-tracker@^5.11.0":
   "integrity" "sha512-lbD3qdafBOf2dlqKhOcVRxaPAujX+9UlPC6v8iMugMeAXe0TCgU3QbGXY3zrJsu6ex64WYDpH4y1+WOOBmWMuA=="
   "resolved" "https://registry.npmjs.org/@mui/core-downloads-tracker/-/core-downloads-tracker-5.11.6.tgz"
   "version" "5.11.6"
@@ -816,22 +802,6 @@
   "version" "5.11.0"
   dependencies:
     "@babel/runtime" "^7.20.6"
-
-"@mui/joy@^5.0.0-alpha.64":
-  "integrity" "sha512-IC5/pRbkn0J0QtbkKDPU3mpqUZOQL4uC/N8E831p1wS78xoZUxTr2PXLtOXIpbOuadZjzMeC46+urvFObMl9ZQ=="
-  "resolved" "https://registry.npmjs.org/@mui/joy/-/joy-5.0.0-alpha.64.tgz"
-  "version" "5.0.0-alpha.64"
-  dependencies:
-    "@babel/runtime" "^7.20.7"
-    "@mui/base" "5.0.0-alpha.115"
-    "@mui/core-downloads-tracker" "^5.11.6"
-    "@mui/system" "^5.11.5"
-    "@mui/types" "^7.2.3"
-    "@mui/utils" "^5.11.2"
-    "clsx" "^1.2.1"
-    "csstype" "^3.1.1"
-    "prop-types" "^15.8.1"
-    "react-is" "^18.2.0"
 
 "@mui/material@^5.0.0", "@mui/material@^5.11.0", "@mui/material@^5.4.1":
   "integrity" "sha512-8Zl34lb89rLKTTi50Kakki675/LLHMKKnkp8Ee3rAZ2qmisQlRODsGh1MBjENKp0vwhQnNSvlsCfJteVTfotPQ=="
@@ -870,7 +840,7 @@
     "csstype" "^3.1.1"
     "prop-types" "^15.8.1"
 
-"@mui/system@^5.11.0", "@mui/system@^5.11.5", "@mui/system@^5.4.1":
+"@mui/system@^5.11.0", "@mui/system@^5.4.1":
   "integrity" "sha512-KNVsJ0sgRRp2XBqhh4wPS5aacteqjwxgiYTVwVnll2fgkgunZKo3DsDiGMrFlCg25ZHA3Ax58txWGE9w58zp0w=="
   "resolved" "https://registry.npmjs.org/@mui/system/-/system-5.11.5.tgz"
   "version" "5.11.5"

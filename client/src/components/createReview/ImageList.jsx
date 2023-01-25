@@ -4,8 +4,6 @@ import { AddPhotoAlternate } from "@mui/icons-material";
 export default function ImageList({
   images,
   setImages,
-  uploadFile,
-  imageUpload,
 }) {
   return (
     <Grid container spacing={2}>

@@ -1,5 +1,5 @@
 import {
-  Box,
+  Box, Divider,
   Drawer,
   IconButton,
   List,
@@ -51,6 +51,17 @@ export default function HeaderDrawer({categories}) {
           onKeyDown={toggleDrawer(false)}
         >
           <List>
+            <NavLink
+              to={"/create"}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <ListItem disablePadding>
+                <ListItemButton>
+                  <ListItemText primary="Create" />
+                </ListItemButton>
+              </ListItem>
+            </NavLink>
+            <Divider />
             {categories?.map((cat) => (
               <NavLink
                 key={cat._id}

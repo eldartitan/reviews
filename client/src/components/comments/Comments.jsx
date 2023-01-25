@@ -79,7 +79,7 @@ export default function Comments({review_id, user_id}) {
         vertical: 'bottom',
         horizontal: 'center'
       }}>
-        <Alert onClose={() => setOpen(false)} severity="warning" sx={{width: '100%'}}>
+        <Alert severity="warning" sx={{width: '100%'}}>
           You must be logged in to add a comment!
         </Alert>
       </Snackbar>
