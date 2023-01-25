@@ -51,7 +51,7 @@ export default function HeaderDrawer({categories}) {
           onKeyDown={toggleDrawer(false)}
         >
           <List>
-            {categories.map((cat) => (
+            {categories?.map((cat) => (
               <NavLink
                 key={cat._id}
                 to={`/c/${cat.value}`}
