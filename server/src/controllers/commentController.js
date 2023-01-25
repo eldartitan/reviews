@@ -16,7 +16,6 @@ class commentController {
 
   async create(req, res, next) {
     try {
-      console.log(req.body)
       const { user_id, review_id, text } = req.body;
       let user = !user_id ? req.user : await User.findOne({ _id: user_id });
       const commentDB = await Comment.create({
@@ -27,7 +26,7 @@ class commentController {
       });
 
       await Review.updateOne(
-        { id: review_id },
+        { _id: review_id },
         { $push: { comments: commentDB._id } }
       );
 

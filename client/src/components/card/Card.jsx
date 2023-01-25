@@ -10,6 +10,7 @@ export default function Card({ data }) {
       sx={{
         borderRadius: 1,
         color: "#898989",
+        width: "100%",
       }}
     >
       <InfoBlock

@@ -36,7 +36,7 @@ export default function ContentBock({ text, title, images, id }) {
             >
               {text}
             </Typography>
-            <TextWithBlur />
+            {text.length > 350 && <TextWithBlur />}
           </Box>
           {images.length > 0 && (
             <CardMedia

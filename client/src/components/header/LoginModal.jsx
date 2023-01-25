@@ -7,7 +7,7 @@ import { Google } from "@mui/icons-material";
 import ButtonBorderRadius from "../ButtonBorderRadius.jsx";
 import discord from "../../assets/discord-icon.svg";
 
-const API_URL = import.meta.env.VITE_REACT_API_URL;
+// const API_URL = import.meta.env.VITE_REACT_API_URL;
 
 const style = {
   position: "absolute",
@@ -69,7 +69,7 @@ export default function LoginModal() {
               variant="contained"
               color="inherit"
               sx={{ mb: 2 }}
-              onClick={() => window.open(`${API_URL}/auth/google`, "_self")}
+              onClick={() => window.open(`/auth/google`, "_self")}
             >
               <Google />
             </Button>
@@ -77,7 +77,7 @@ export default function LoginModal() {
               fullWidth
               variant="contained"
               color="inherit"
-              onClick={() => window.open(`${API_URL}/auth/discord`, "_self")}
+              onClick={() => window.open(`/auth/discord`, "_self")}
             >
               <img
                 alt="discord"

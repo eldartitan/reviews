@@ -12,7 +12,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import { NavLink } from "react-router-dom";
 import LoginModal from "./LoginModal.jsx";
-import MyDrawer from "./HeaderDrawer.jsx";
+import HeaderDrawer from "./HeaderDrawer.jsx";
 import HeaderMenu from "./HeaderMenu";
 import { useDispatch, useSelector } from "react-redux";
 import {loginDiscord, loginGoogle} from "../../store/authSlice.js";
@@ -32,14 +32,16 @@ export default function Header() {
   };
 
   useMemo(() => {
-    dispatch(loginGoogle());
-    dispatch(loginDiscord());
+    if (!user && error) {
+      dispatch(loginGoogle());
+      dispatch(loginDiscord());
+    }
   }, []);
 
   return (
     <Toolbar>
       <Stack direction="row" alignItems="center" spacing={1}>
-        <MyDrawer />
+        <HeaderDrawer categories={categories} />
         <Box>
           <NavLink
             to={"/"}

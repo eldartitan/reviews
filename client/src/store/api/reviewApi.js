@@ -1,10 +1,10 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 
-const API_URL = import.meta.env.VITE_REACT_API_URL;
+// const API_URL = import.meta.env.VITE_REACT_API_URL;
 
 export const reviewApi = createApi({
   reducerPath: "reviewApi",
-  baseQuery: fetchBaseQuery({baseUrl: API_URL}),
+  baseQuery: fetchBaseQuery({baseUrl: ""}),
   tagTypes: ['Reviews', 'Comments', 'Product'],
   endpoints: (builder) => ({
     getReviews: builder.query({
@@ -26,6 +26,7 @@ export const reviewApi = createApi({
         body,
         credentials: "include",
       }),
+      invalidatesTags: [{ type: 'Reviews', id: 'LIST' }]
     }),
     likeReview: builder.mutation({
       query: (body) => {
@@ -95,7 +96,7 @@ export const reviewApi = createApi({
         body,
         credentials: "include",
       }),
-      invalidatesTags: [{type: 'Comments', id: 'LIST'}]
+      invalidatesTags: [{type: 'Comments', id: 'LIST'}, { type: 'Reviews', id: 'LIST' }]
     }),
     postRating: builder.mutation({
       query: (body) => ({

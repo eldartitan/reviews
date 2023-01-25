@@ -27,7 +27,7 @@ const MainPage = () => {
             {!isLoading &&
               reviews?.map((review) => {
                 return (
-                  <Grid item key={review._id}>
+                  <Grid item key={review._id} sx={{width: "100%"}}>
                     <Card data={review} />
                   </Grid>
                 );

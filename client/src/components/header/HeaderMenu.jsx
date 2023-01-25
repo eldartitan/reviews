@@ -58,7 +58,7 @@ export default function HeaderMenu() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <Typography textAlign="center" variant="subtitle2" sx={{py: 1}}>{user.username}</Typography>
+        <Typography textAlign="center" variant="subtitle2" sx={{py: 1}}>{user?.username}</Typography>
         <NavLink
           style={{ textDecoration: "none", color: "inherit" }}
           to={"/my-page"}
